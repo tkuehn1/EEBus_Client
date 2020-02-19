@@ -1,4 +1,4 @@
-package tcp_client
+package Studienarbeit_src
 
 import (
 	"bufio"
