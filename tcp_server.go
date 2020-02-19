@@ -23,12 +23,16 @@ func Tcp_conn() {
 	// run loop forever (or until ctrl-c)
 	for {
 		// will listen for message to process ending in newline (\n)
-		message, _ := bufio.NewReader(conn).ReadString('\n')
+		message, err := bufio.NewReader(conn).ReadString('\n')
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+		fmt.Println("\"" + message + "\"")
 		// output message received
 		if strings.TrimRight(message, "\r\n") == "HALLO" {
 			fmt.Print("tschüss")
 		}
-		fmt.Print("Message Received test:", string(message))
+		// fmt.Print("Message Received:", string(message))
 		// sample process for string received
 		newmessage := strings.ToUpper(message)
 		// send new string back to client
