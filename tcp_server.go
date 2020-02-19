@@ -27,5 +27,9 @@ func Tcp_conn() {
 		newmessage := strings.ToUpper(message)
 		// send new string back to client
 		conn.Write([]byte(newmessage + "\n"))
+		if message == "exit" {
+			break
+		}
+
 	}
 }
