@@ -27,18 +27,17 @@ func Tcp_conn() {
 		if err != nil {
 			fmt.Println(err.Error())
 		}
-		fmt.Println("\"" + message + "\"")
 		// output message received
 		if strings.TrimRight(message, "\r\n") == "HALLO" {
-			fmt.Print("tschüss")
+			fmt.Println("tschüss")
 		}
-		// fmt.Print("Message Received:", string(message))
+		fmt.Print("Message Received:", string(message))
 		// sample process for string received
 		newmessage := strings.ToUpper(message)
 		// send new string back to client
 		conn.Write([]byte(newmessage + "\n"))
-		if message == "EXIT" {
-			break
+		if message == "exit" {
+			return
 		}
 
 	}
