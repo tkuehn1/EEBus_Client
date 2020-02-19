@@ -7,6 +7,9 @@ import (
 	"strings"
 )
 
+func main() {
+	Tcp_conn()
+}
 func Tcp_conn() {
 
 	fmt.Println("Launching server...")
