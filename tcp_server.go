@@ -28,7 +28,7 @@ func Tcp_conn() {
 		if string(message) == "hallo" {
 			fmt.Print("tschüss")
 		}
-		fmt.Print("Message Received:", string(message))
+		fmt.Print("Message Received test:", string(message))
 		// sample process for string received
 		newmessage := strings.ToUpper(message)
 		// send new string back to client
