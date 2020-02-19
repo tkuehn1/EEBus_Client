@@ -27,8 +27,9 @@ func Tcp_conn() {
 		if err != nil {
 			fmt.Println(err.Error())
 		}
+		message = strings.TrimRight(message, "\r\n")
 		// output message received
-		if strings.TrimRight(message, "\r\n") == "HALLO" {
+		if message == "hallo" {
 			fmt.Println("tschüss")
 		}
 		fmt.Print("Message Received:", string(message))
@@ -37,6 +38,7 @@ func Tcp_conn() {
 		// send new string back to client
 		conn.Write([]byte(newmessage + "\n"))
 		if message == "exit" {
+			fmt.Println("Close Connection")
 			conn.Close()
 			ln.Close()
 			return
