@@ -25,7 +25,7 @@ func Tcp_conn() {
 		// will listen for message to process ending in newline (\n)
 		message, _ := bufio.NewReader(conn).ReadString('\n')
 		// output message received
-		if message == "hallo" {
+		if message == "HALLO" {
 			fmt.Print("tschüss")
 		}
 		fmt.Print("Message Received:", string(message))
