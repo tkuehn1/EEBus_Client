@@ -30,6 +30,8 @@ func Tcp_client() {
 				if message == "exit" {
 					fmt.Println("Close Connection\n")
 					conn.Close()
+					fmt.Print("Last Message from Server: " + message)
+					return
 				}
 				fmt.Print("Last Message from Server: " + message)
 				break
