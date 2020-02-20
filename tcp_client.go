@@ -27,7 +27,11 @@ func Tcp_client() {
 			if message != text {
 				fmt.Fprintf(conn, text+"\n")
 			} else if message == text {
-				fmt.Print("Message from server: " + message)
+				if message == "exit" {
+					fmt.Println("Close Connection\n")
+					conn.Close()
+				}
+				fmt.Print("Last Message from Server: " + message)
 				break
 			}
 		}

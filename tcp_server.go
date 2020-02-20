@@ -34,7 +34,7 @@ func Tcp_conn() {
 		// send received string back to client
 		conn.Write([]byte(message + "\n"))
 		if message == "exit" {
-			fmt.Println("Close Connection")
+			fmt.Println("Close Connection\n")
 			conn.Close()
 			ln.Close()
 			return
