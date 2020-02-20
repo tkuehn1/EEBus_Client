@@ -21,7 +21,6 @@ func Tcp_client() {
 		// listen for reply
 		message, err := bufio.NewReader(conn).ReadString('\n')
 		//trimm String without \r\n
-		message = strings.TrimRight(message, "\r\n")
 		if err != nil {
 			fmt.Println(err.Error())
 		}
@@ -31,6 +30,7 @@ func Tcp_client() {
 				fmt.Fprintf(conn, text+"\n")
 			} else if message == text {
 				//when exit is transmitet close Connection
+				message = strings.TrimRight(message, "\r\n")
 				if message == "exit" {
 					fmt.Println("Close Client Connection\n")
 					conn.Close()

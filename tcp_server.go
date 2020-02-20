@@ -30,7 +30,7 @@ func Tcp_conn() {
 		message = strings.TrimRight(message, "\r\n")
 		// output message received
 
-		fmt.Print("Message Received:", string(message+"\n"))
+		fmt.Print("Message From Client Received:", string(message+"\n"))
 		// send received string back to client
 		conn.Write([]byte(message + "\n"))
 		if message == "exit" {
