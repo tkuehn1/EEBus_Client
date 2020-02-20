@@ -2,43 +2,63 @@ package Studienarbeit_src
 
 import (
 	"bufio"
+	"crypto/tls"
 	"fmt"
+	"log"
 	"net"
 	"strings"
 )
 
-func main() {
-	Tcp_conn()
-}
-func Tcp_conn() {
+func Tcp_server() {
+	log.SetFlags(log.Lshortfile)
 
-	fmt.Println("Launching server...")
+	cer, err := tls.LoadX509KeyPair("server.crt", "server.key")
+	if err != nil {
+		log.Println(err)
+		return
+	}
 
-	// listen on all interfaces
-	ln, _ := net.Listen("tcp", ":8081")
+	config := &tls.Config{Certificates: []tls.Certificate{cer}}
+	ln, err := tls.Listen("tcp", ":443", config)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	defer ln.Close()
 
-	// accept connection on port
-	conn, _ := ln.Accept()
-
-	// run loop forever (or until ctrl-c)
 	for {
-		// will listen for message to process ending in newline (\n)
-		message, err := bufio.NewReader(conn).ReadString('\n')
+		conn, err := ln.Accept()
 		if err != nil {
-			fmt.Println(err.Error())
-		}
-		message = strings.TrimRight(message, "\r\n")
-		// output message received
+			log.Println(err)
+			continue
 
-		fmt.Print("Message From Client Received:", string(message+"\n"))
-		// send received string back to client
-		conn.Write([]byte(message + "\n"))
-		if message == "exit" {
-			fmt.Println("Close Server Connection\n")
-			conn.Close()
-			ln.Close()
+		}
+		go handleConnection(conn)
+	}
+}
+
+func handleConnection(conn net.Conn) {
+	defer conn.Close()
+
+	r := bufio.NewReader(conn)
+	for {
+		msg, err := r.ReadString('\n')
+		if err != nil {
+			log.Println(err)
 			return
 		}
+		msg = strings.TrimRight(msg, "\r\n")
+		if msg == "exit" {
+			fmt.Println("Close Server Connection!!!")
+			println(msg)
+			return
+		}
+		println(msg)
 
+		n, err := conn.Write([]byte("world\n"))
+		if err != nil {
+			log.Println(n, err)
+			return
+		}
 	}
 }
