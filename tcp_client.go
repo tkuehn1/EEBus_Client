@@ -28,7 +28,7 @@ func Tcp_client() {
 				fmt.Fprintf(conn, text+"\n")
 			} else if message == text {
 				fmt.Print("Message from server: " + message)
-				return
+				break
 			}
 		}
 	}
