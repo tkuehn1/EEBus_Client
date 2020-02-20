@@ -5,7 +5,7 @@ import (
 	"log"
 )
 
-func main() {
+func Tcp_client() {
 	log.SetFlags(log.Lshortfile)
 
 	conf := &tls.Config{
