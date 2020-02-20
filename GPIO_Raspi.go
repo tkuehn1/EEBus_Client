@@ -2,7 +2,7 @@ package Studienarbeit_src
 
 import (
 	"fmt"
-	"github.com/stianeikeland/go-rpio/v4" // you have to Import "go get github.com/stianeikeland/go-rpio for including the package for gpio on raspi "
+	"github.com/stianeikeland/go-rpio" // you have to Import "go get github.com/stianeikeland/go-rpio for including the package for gpio on raspi "
 	"time"
 )
 
