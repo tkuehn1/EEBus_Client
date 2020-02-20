@@ -1,9 +1,23 @@
 package Studienarbeit_src
 
-import "net/http"
+import (
+	// "fmt"
+	// "io"
+	"log"
+	"net/http"
+)
 
-func web_conn() {
+func web_conn(w http.ResponseWriter, req *http.Request) {
+	w.Header().Set("Content-Type", "text/plain")
+	w.Write([]byte("This is an example server.\n"))
+	// fmt.Fprintf(w, "This is an example server.\n")
+	// io.WriteString(w, "This is an example server.\n")
+}
 
-	http.HandleFunc("/index", IoT_Index)
-	http.ListenAndServe(":3000", nil)
+func main() {
+	http.HandleFunc("/hello", HelloServer)
+	err := http.ListenAndServeTLS(":443", "server.crt", "server.key", nil)
+	if err != nil {
+		log.Fatal("ListenAndServe: ", err)
+	}
 }
