@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net"
 	"os"
+	"strings"
 )
 
 func Tcp_client() {
@@ -19,6 +20,8 @@ func Tcp_client() {
 		fmt.Fprintf(conn, text+"\n")
 		// listen for reply
 		message, err := bufio.NewReader(conn).ReadString('\n')
+		//trimm String without \r\n
+		message = strings.TrimRight(message, "\r\n")
 		if err != nil {
 			fmt.Println(err.Error())
 		}
@@ -27,8 +30,9 @@ func Tcp_client() {
 			if message != text {
 				fmt.Fprintf(conn, text+"\n")
 			} else if message == text {
+				//when exit is transmitet close Connection
 				if message == "exit" {
-					fmt.Println("Close Connection\n")
+					fmt.Println("Close Client Connection\n")
 					conn.Close()
 					fmt.Print("Last Message from Server: " + message)
 					return
