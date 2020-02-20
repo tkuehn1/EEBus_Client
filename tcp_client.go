@@ -18,7 +18,18 @@ func Tcp_client() {
 		// send to socket
 		fmt.Fprintf(conn, text+"\n")
 		// listen for reply
-		message, _ := bufio.NewReader(conn).ReadString('\n')
-		fmt.Print("Message from server: " + message)
+		message, err := bufio.NewReader(conn).ReadString('\n')
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+		for {
+			//check if the transmittet message is correctly received
+			if message != text {
+				fmt.Fprintf(conn, text+"\n")
+			} else if message == text {
+				fmt.Print("Message from server: " + message)
+				return
+			}
+		}
 	}
 }

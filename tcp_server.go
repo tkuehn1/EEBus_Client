@@ -29,14 +29,10 @@ func Tcp_conn() {
 		}
 		message = strings.TrimRight(message, "\r\n")
 		// output message received
-		if message == "hallo" {
-			fmt.Println("tschüss")
-		}
+
 		fmt.Print("Message Received:", string(message))
-		// sample process for string received
-		newmessage := strings.ToUpper(message)
-		// send new string back to client
-		conn.Write([]byte(newmessage + "\n"))
+		// send received string back to client
+		conn.Write([]byte(message + "\n"))
 		if message == "exit" {
 			fmt.Println("Close Connection")
 			conn.Close()
