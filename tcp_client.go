@@ -38,8 +38,8 @@ func Tcp_client() {
 					return
 				}
 				fmt.Print("Last Message from Server: " + message)
-				break
 			}
+			break
 		}
 	}
 }
