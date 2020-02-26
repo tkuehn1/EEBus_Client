@@ -22,4 +22,5 @@ func Gpio() {
 		pin.Toggle()
 		time.Sleep(time.Second / 5)
 	}
+	pin.Write(rpio.Low)
 }
