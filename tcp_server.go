@@ -19,7 +19,7 @@ func Tcp_server() {
 	}
 
 	config := &tls.Config{Certificates: []tls.Certificate{cer}}
-	ln, err := tls.Listen("tcp", ":7070", config)
+	ln, err := tls.Listen("tcp", ":443", config)
 	if err != nil {
 		log.Println(err)
 		return

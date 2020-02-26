@@ -12,7 +12,7 @@ func Tcp_client() {
 		//InsecureSkipVerify: true,
 	}
 
-	conn, err := tls.Dial("tcp", "127.0.0.1:7070", conf)
+	conn, err := tls.Dial("tcp", "127.0.0.1:443", conf)
 	if err != nil {
 		log.Println(err)
 		return
