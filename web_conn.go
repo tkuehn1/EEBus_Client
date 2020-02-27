@@ -14,9 +14,9 @@ func web_conn(w http.ResponseWriter, req *http.Request) {
 	// io.WriteString(w, "This is an example server.\n")
 }
 
-func main() {
-	http.HandleFunc("/hello", HelloServer)
-	err := http.ListenAndServeTLS(":443", "server.crt", "server.key", nil)
+func Web_start() {
+	http.HandleFunc("/hello", web_conn)
+	err := http.ListenAndServeTLS(":7070", "server.crt", "server.key", nil)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}

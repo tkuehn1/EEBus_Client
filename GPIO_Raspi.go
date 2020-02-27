@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func gpio() {
+func Gpio() {
 	fmt.Println("opening gpio")
 	err := rpio.Open()
 	if err != nil {
@@ -22,4 +22,5 @@ func gpio() {
 		pin.Toggle()
 		time.Sleep(time.Second / 5)
 	}
+	pin.Write(rpio.Low)
 }
