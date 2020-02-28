@@ -16,6 +16,7 @@ func web_conn(w http.ResponseWriter, req *http.Request) {
 
 func Web_start() {
 	http.HandleFunc("/hello", web_conn)
+	http.Handle("/", http.RedirectHandler("/hello", 302))
 	err := http.ListenAndServeTLS(":7070", "server.crt", "server.key", nil)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
