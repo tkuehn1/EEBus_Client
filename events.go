@@ -17,7 +17,7 @@ type Event struct {
 	Data interface{} `json:"data"`
 }
 
-func NewEventFromRaw(rawData []Data) (*Event, error) {
+func NewEventFromRaw(rawData []byte) (*Event, error) {
 	event := new(Event)
 	err := json.Unmarshal(rawData, event)
 	return event, err
