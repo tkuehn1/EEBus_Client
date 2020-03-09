@@ -14,7 +14,7 @@
         var button = document.querySelector('#send');
         
         function WsClient(url) {
-            this.wss =new WebSocket(url);
+            this.ws =new WebSocket(url);
             this.addEventListener = {};
 
             this.on = (eventName, cb) => this.addEventListener[eventName] =cb;
@@ -25,10 +25,10 @@
                     data: data
                 };
                 let rawData = JSON.stringify(event);
-                this.wss.send(rawData);
+                this.ws.send(rawData);
             };
 
-            this.wss.onmessage = (response) => {
+            this.ws.onmessage = (response) => {
                 try{
                     let data = JSON.parse(response.data);
                     if (data){
@@ -43,16 +43,17 @@
             }
         }
 
-        var wss = new WsClient('ws://' + window.location.origin.replace(/((http)|(https)):\/\//gm, '') + '/ws');
+        var ws = new WsClient('wss://' + window.location.origin.replace(/((http)|(https)):\/\//gm, '') + '/ws');
 
-        wss.on('response', (data) => {
+        ws.on('response', (data) => {
             console.log("response:", data);
+            let msg = document.createElement('p')
             msg.innerText =data;
             document.body.appendChild(msg);
         })
 
         button.onclick = () => {
-            wss.emit('message', input.value)
+            ws.emit('message', input.value)
         };
     </script>
 </body>
