@@ -15,7 +15,7 @@ func Gpio() {
 
 	defer rpio.Close()
 
-	pin := rpio.Pin(14)
+	pin := rpio.Pin(pinselect)
 	pin.Output()
 
 	for x := 0; x < 20; x++ {

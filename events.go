@@ -8,13 +8,23 @@ type EventHandler func(*Event)
 Example Event:
 {
 	"event": "message",
-	"data": "this is a data object"
+	"data": {
+		"pinnumber": 16,
+		"active": true,
+		"status": false,
+	}
 }
 */
 
 type Event struct {
-	Name string      `json:"event"`
-	Data interface{} `json:"data"`
+	Name string `json:"event"`
+	Data Data   `json:"data"`
+}
+
+type Data struct {
+	Pinnumber int  `json:"pinnumber"`
+	Active    bool `json:"active"`
+	Status    bool `json:"status"`
 }
 
 func NewEventFromRaw(rawData []byte) (*Event, error) {

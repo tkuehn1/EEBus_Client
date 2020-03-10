@@ -1,12 +1,16 @@
 package Studienarbeit_src
 
 import (
+	"encoding/json"
 	// "fmt"
 	// "io"
 	"log"
 	"net/http"
-	"strings"
 )
+
+type ServerResponse struct {
+	Status string `json:"status"`
+}
 
 func web_conn(w http.ResponseWriter, req *http.Request) {
 	ws, err := NewWebSocket(w, req)
@@ -14,12 +18,10 @@ func web_conn(w http.ResponseWriter, req *http.Request) {
 		log.Println("Error creating websocket connection: %v", err)
 		return
 	}
+	raw, _ := json.Marshal(ServerResponse{Status: "Success"})
 	ws.On("message", func(e *Event) {
-		log.Printf("Message reveived: %s", e.Data.(string))
-		ws.Out <- (&Event{
-			Name: "response",
-			Data: strings.ToUpper(e.Data.(string)),
-		}).Raw()
+		log.Printf("Message reveived: %s", json.Marshal(e.Data))
+		ws.Out <- raw
 	})
 	// fmt.Fprintf(w, "This is an example server.\n")
 	// io.WriteString(w, "This is an example server.\n")
