@@ -1,6 +1,9 @@
 package Studienarbeit_src
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"log"
+)
 
 type EventHandler func(*Event)
 
@@ -28,6 +31,7 @@ type Data struct {
 }
 
 func NewEventFromRaw(rawData []byte) (*Event, error) {
+	log.Printf("%s\n", rawData)
 	event := new(Event)
 	err := json.Unmarshal(rawData, event)
 	return event, err
