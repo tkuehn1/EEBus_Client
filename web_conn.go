@@ -19,8 +19,10 @@ func web_conn(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 	raw, _ := json.Marshal(ServerResponse{Status: "Success"})
+
 	ws.On("message", func(e *Event) {
-		log.Printf("Message reveived: %s", json.Marshal(e.Data))
+		req, _ := json.Marshal(e.Data)
+		log.Printf("Message reveived: %s", req)
 		ws.Out <- raw
 	})
 	// fmt.Fprintf(w, "This is an example server.\n")
