@@ -11,7 +11,7 @@ button.onclick = () => {
     const data = {
         event: "message",
         data: {
-            pinNumber: pinNumber.value,
+            pinNumber: Number(pinNumber.value),
             status: status.checked,
             active: active.checked,
         }
