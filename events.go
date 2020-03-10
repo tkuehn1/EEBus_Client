@@ -25,9 +25,9 @@ type Event struct {
 }
 
 type Data struct {
-	Pinnumber float64 `json:"pinnumber"`
-	Active    bool    `json:"active"`
-	Status    bool    `json:"status"`
+	Pinnumber int  `json:"pinnumber"`
+	Active    bool `json:"active"`
+	Status    bool `json:"status"`
 }
 
 func NewEventFromRaw(rawData []byte) (*Event, error) {
