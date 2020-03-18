@@ -19,7 +19,7 @@
 * license that can be found in the LICENSE file.
  */
 
-package Studienarbeit_src
+package lc
 
 import (
 	"bufio"
@@ -175,34 +175,34 @@ func main() {
 		os.Exit(1)
 	}
 
-	certOut, err := os.Create("selfsigned.crt")
+	certOut, err := os.Create("server.crt")
 	if err != nil {
-		fmt.Println("Failed to open selfsigned.pem for writing:", err)
+		fmt.Println("Failed to open server.pem for writing:", err)
 		os.Exit(1)
 	}
 	pem.Encode(certOut, &pem.Block{Type: "CERTIFICATE", Bytes: derBytes})
 	certOut.Close()
 
-	keyOut, err := os.OpenFile("selfsigned.key", os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0600)
+	keyOut, err := os.OpenFile("server.key", os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0600)
 	if err != nil {
-		fmt.Println("failed to open selfsigned.key for writing:", err)
+		fmt.Println("failed to open server.key for writing:", err)
 		os.Exit(1)
 	}
 	b, err := x509.MarshalECPrivateKey(priv)
-	pem.Encode(keyOut, &pem.Block{Type: "RSA PRIVATE KEY", Bytes: b})
+	pem.Encode(keyOut, &pem.Block{Type: "EC PRIVATE KEY", Bytes: b})
 	keyOut.Close()
 
 	fmt.Println("Successfully generated certificate")
-	fmt.Println("    Certificate: selfsigned.crt")
-	fmt.Println("    Private Key: selfsigned.key")
+	fmt.Println("    Certificate: server.crt")
+	fmt.Println("    Private Key: server.key")
 	fmt.Println()
 	fmt.Println("Copy and paste the following into your Log Courier")
 	fmt.Println("configuration, adjusting paths as necessary:")
 	fmt.Println("    \"transport\": \"tls\",")
-	fmt.Println("    \"ssl ca\":    \"path/to/selfsigned.crt\",")
+	fmt.Println("    \"ssl ca\":    \"path/to/server.crt\",")
 	fmt.Println()
 	fmt.Println("Copy and paste the following into your LogStash configuration, ")
 	fmt.Println("adjusting paths as necessary:")
-	fmt.Println("    ssl_certificate => \"path/to/selfsigned.crt\",")
-	fmt.Println("    ssl_key         => \"path/to/selfsigned.key\",")
+	fmt.Println("    ssl_certificate => \"path/to/server.crt\",")
+	fmt.Println("    ssl_key         => \"path/to/server.key\",")
 }

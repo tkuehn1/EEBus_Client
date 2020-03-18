@@ -1,4 +1,4 @@
-package Studienarbeit_src
+package EEBus_Client
 
 import (
 	"encoding/json"
@@ -40,4 +40,12 @@ func NewEventFromRaw(rawData []byte) (*Event, error) {
 func (e *Event) Raw() []byte {
 	raw, _ := json.Marshal(e)
 	return raw
+}
+
+func handleEventMessage(d Data) error {
+	err := Gpio(d.Pinnumber, d.Active)
+	if err != nil {
+		return err
+	}
+	return nil
 }

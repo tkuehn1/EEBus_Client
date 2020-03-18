@@ -1,26 +1,26 @@
-package Studienarbeit_src
+package EEBus_Client
 
 import (
 	"fmt"
 	"github.com/stianeikeland/go-rpio" // you have to Import "go get github.com/stianeikeland/go-rpio for including the package for gpio on raspi "
-	"time"
 )
 
-func Gpio() {
+func Gpio(pinnumber int, active bool) error {
 	fmt.Println("opening gpio")
 	err := rpio.Open()
 	if err != nil {
-		panic(fmt.Sprint("unable to open gpio", err.Error()))
+		return err
 	}
 
 	defer rpio.Close()
 
-	pin := rpio.Pin(14)
+	pin := rpio.Pin(pinnumber)
 	pin.Output()
 
-	for x := 0; x < 20; x++ {
-		pin.Toggle()
-		time.Sleep(time.Second / 5)
+	if active {
+		pin.High()
+	} else {
+		pin.Low()
 	}
-	pin.Write(rpio.Low)
+	return nil
 }

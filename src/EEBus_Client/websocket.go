@@ -1,6 +1,7 @@
-package Studienarbeit_src
+package EEBus_Client
 
 import (
+	"encoding/json"
 	"github.com/gorilla/websocket"
 	"log"
 	"net/http"
@@ -26,6 +27,10 @@ type WebSocket struct {
 	Events map[string]EventHandler
 }
 
+type ServerResponse struct {
+	Status string `json:"status"`
+}
+
 func NewWebSocket(w http.ResponseWriter, r *http.Request) (*WebSocket, error) {
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
@@ -47,7 +52,7 @@ func NewWebSocket(w http.ResponseWriter, r *http.Request) (*WebSocket, error) {
 
 func (ws *WebSocket) Reader() {
 	defer func() {
-		ws.Conn.Close()
+		_ = ws.Conn.Close()
 	}()
 	for {
 		_, message, err := ws.Conn.ReadMessage()
@@ -75,15 +80,15 @@ func (ws *WebSocket) Writer() {
 		select {
 		case message, ok := <-ws.Out:
 			if !ok {
-				ws.Conn.WriteMessage(websocket.CloseMessage, make([]byte, 0))
+				_ = ws.Conn.WriteMessage(websocket.CloseMessage, make([]byte, 0))
 				return
 			}
 			w, err := ws.Conn.NextWriter(websocket.TextMessage)
 			if err != nil {
 				return
 			}
-			w.Write(message)
-			w.Close()
+			_, _ = w.Write(message)
+			_ = w.Close()
 		}
 	}
 }
@@ -91,4 +96,28 @@ func (ws *WebSocket) Writer() {
 func (ws *WebSocket) On(eventName string, action EventHandler) *WebSocket {
 	ws.Events[eventName] = action
 	return ws
+}
+
+func WebConn(w http.ResponseWriter, req *http.Request) {
+	ws, err := NewWebSocket(w, req)
+	if err != nil {
+		log.Printf("Error creating websocket connection: %v\n", err)
+		return
+	}
+
+	ws.On("message", func(e *Event) {
+		log.Printf("Message received: %v\n", e.Data)
+		err = handleEventMessage(e.Data)
+		resp := ServerResponse{}
+		if err != nil {
+			resp.Status = "Error"
+		} else {
+			resp.Status = "Success"
+		}
+		raw, _ := json.Marshal(resp)
+
+		ws.Out <- raw
+	})
+	// fmt.Fprintf(w, "This is an example server.\n")
+	// io.WriteString(w, "This is an example server.\n")
 }
