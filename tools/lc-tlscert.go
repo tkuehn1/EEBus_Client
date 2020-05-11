@@ -175,7 +175,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	certOut, err := os.Create("server.crt")
+	certOut, err := os.Create("../server.crt")
 	if err != nil {
 		fmt.Println("Failed to open server.pem for writing:", err)
 		os.Exit(1)
@@ -183,7 +183,7 @@ func main() {
 	pem.Encode(certOut, &pem.Block{Type: "CERTIFICATE", Bytes: derBytes})
 	certOut.Close()
 
-	keyOut, err := os.OpenFile("server.key", os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0600)
+	keyOut, err := os.OpenFile("../server.key", os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0600)
 	if err != nil {
 		fmt.Println("failed to open server.key for writing:", err)
 		os.Exit(1)
