@@ -1,6 +1,0 @@
-#!/bin/bash
-
-# Dieses Skript wird dazu benutzt die Studienarbeit zu installieren.
-# Für die Ausführung dieses Skripts ist es notwendig golang schon Installiert und Konfiguriert zu haben.
-type Setup
-go get github.com/
