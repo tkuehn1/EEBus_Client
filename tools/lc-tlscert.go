@@ -19,7 +19,7 @@
 * license that can be found in the LICENSE file.
  */
 
-package lc
+package main
 
 import (
 	"bufio"
