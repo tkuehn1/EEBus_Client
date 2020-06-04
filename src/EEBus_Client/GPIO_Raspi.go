@@ -34,6 +34,7 @@ func Taster() string {
 	defer rpio.Close()
 	pin := rpio.Pin(14)
 	pin.Input()
+	pin.PullUp()
 	for {
 		res := pin.Read()
 

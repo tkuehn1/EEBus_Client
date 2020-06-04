@@ -13,10 +13,6 @@ const (
 	Server_PORT = "7070"
 )
 
-func StartTCP() {
-	go Tcp_socket()
-}
-
 func Tcp_socket() {
 	// Listen for incoming connections.
 	l, err := net.Listen("tcp", "localhost"+":"+Server_PORT)

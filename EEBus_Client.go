@@ -7,34 +7,44 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"strings"
 	"time"
 )
 
 func main() {
 	for true {
-		reader := bufio.NewReader(os.Stdin)
+
 		fmt.Println("Run Menue")
 		fmt.Println("--------------------------")
-		fmt.Println("Type web to use the websocket function")
+		fmt.Println("Type 1 to use the websocket function")
 		fmt.Println("--------------------------")
-		fmt.Println("Type taster to connect two EEBUS-Clients with each other")
+		fmt.Println("Type 2 to connect two EEBUS-Clients with each other")
 		fmt.Println("--------------------------")
 		fmt.Print("->")
-		text, _ := reader.ReadString('\n')
-		text = strings.Replace(text, "\n", "", -1)
+		reader := bufio.NewReader(os.Stdin)
+		text, _, err := reader.ReadRune()
+
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
 
 		switch text {
-		case "web":
+		case '1':
 			web()
-		case "taster":
+		case '2':
 			fmt.Println("Is this a taster ore LED? taster = 1 | LED = 2")
-			text2, _ := reader.ReadString('\n')
-			text2 = strings.Replace(text2, "\n", "", -1)
-			switch text2 {
-			case "1":
+			reader1 := bufio.NewReader(os.Stdin)
+			text, _, err := reader1.ReadRune()
+
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+
+			switch text {
+			case '1':
 				taster()
-			case "2":
+			case '2':
 				led()
 			}
 
@@ -58,7 +68,7 @@ func web() {
 
 func taster() {
 	go EEBus_Client.Multicast("taster")
-	go EEBus_Client.StartTCP()
+	go EEBus_Client.Tcp_socket()
 	for {
 		if EEBus_Client.GetSrcString() != "" {
 			break
@@ -70,5 +80,5 @@ func taster() {
 
 func led() {
 	go EEBus_Client.Multicast("led")
-	go EEBus_Client.StartTCP()
+	go EEBus_Client.Tcp_socket()
 }
